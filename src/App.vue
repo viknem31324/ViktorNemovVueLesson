@@ -17,6 +17,7 @@
 
     <input type="search" class="searchTask" v-model="search" />
 
+    <p class="info" v-if="taskAll === 0">Please add new task</p>
     <div class="list-group">
       <AppTodoItem
         v-for="task in searchHandler(check)"
@@ -56,13 +57,7 @@ export default {
       search: "",
       check: "all",
       message: "Hello from Vue App",
-      todoItems: [
-        { id: 1, text: "task 1", done: false },
-        { id: 2, text: "task 2", done: false },
-        { id: 3, text: "task 3", done: true },
-        { id: 4, text: "task 4", done: false },
-        { id: 5, text: "task 5", done: false },
-      ],
+      todoItems: [],
     };
   },
   components: {
@@ -136,6 +131,7 @@ export default {
   padding: 20px;
 }
 .info {
+  font-size: 18px;
   margin: 0;
   padding: 10px;
 }
