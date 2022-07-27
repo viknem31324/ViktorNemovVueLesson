@@ -10,12 +10,16 @@
         Percent completed taskslist {{ taskComplPercent }}%
       </div>
     </div>
+    <checkSelectTask
+      v-bind:check="check"
+      @checkTab="checkTab"
+    ></checkSelectTask>
 
     <input type="search" class="searchTask" v-model="search" />
 
     <div class="list-group">
       <AppTodoItem
-        v-for="task in searchHandler()"
+        v-for="task in searchHandler(check)"
         v-bind:key="task.id"
         v-bind:id="task.id"
         v-bind:text="task.text"
@@ -44,11 +48,13 @@
 
 <script>
 import todoItem from "./components/todoItem";
+import selectTask from "./components/selectTask";
 export default {
   data() {
     return {
       newTextTask: "",
       search: "",
+      check: "all",
       message: "Hello from Vue App",
       todoItems: [
         { id: 1, text: "task 1", done: false },
@@ -61,6 +67,7 @@ export default {
   },
   components: {
     AppTodoItem: todoItem,
+    checkSelectTask: selectTask,
   },
   methods: {
     addNewTask: function () {
@@ -75,8 +82,19 @@ export default {
       let a = this.todoItems.find((x) => x.id === arr[1]);
       a.done = arr[0];
     },
-    searchHandler() {
-      return this.todoItems.filter((task) => {
+    checkTab(a) {
+      this.check = a;
+    },
+    searchHandler(check) {
+      let arr = [];
+      if (check === "all") {
+        arr = this.todoItems;
+      } else if (check === "compl") {
+        arr = this.todoItems.filter((item) => item.done == true);
+      } else if (check === "outst") {
+        arr = this.todoItems.filter((item) => item.done == false);
+      }
+      return arr.filter((task) => {
         return task.text.toLowerCase().includes(this.search.toLowerCase());
       });
     },
