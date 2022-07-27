@@ -11,6 +11,22 @@
         @checkDone="checkDone"
       ></AppTodoItem>
     </div>
+    <div class="addTask">
+      <input
+        v-bind:value="newTextTask"
+        v-on:input="newTextTask = $event.target.value"
+        class="addTask__input"
+        type="text"
+        placeholder="Add new Task"
+      />
+      <button
+        v-bind:disabled="newTextTask == ''"
+        v-on:click="addNewTask"
+        class="addTask__btn"
+      >
+        Add
+      </button>
+    </div>
   </div>
 </template>
 
@@ -19,6 +35,7 @@ import todoItem from "./components/todoItem";
 export default {
   data() {
     return {
+      newTextTask: "",
       message: "Hello from Vue App",
       todoItems: [
         { id: 1, text: "task 1", done: false },
@@ -33,6 +50,14 @@ export default {
     AppTodoItem: todoItem,
   },
   methods: {
+    addNewTask: function () {
+      this.todoItems.push({
+        id: this.todoItems.length + 1,
+        text: this.newTextTask,
+        done: false,
+      });
+      this.newTextTask = "";
+    },
     checkDone(arr) {
       let a = this.todoItems.find((x) => x.id === arr[1]);
       a.done = arr[0];
@@ -48,5 +73,9 @@ export default {
 .title {
   font-size: 20px;
   text-align: center;
+}
+.addTask {
+  display: flex;
+  padding: 10px;
 }
 </style>
