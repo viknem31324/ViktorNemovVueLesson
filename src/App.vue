@@ -1,6 +1,15 @@
 <template>
   <div class="wrapper">
     <h1 class="title">{{ message }}</h1>
+    <div class="statistic">
+      <div class="statistic__complited btn btn-primary">
+        Completed tasks {{ taskCompl }}
+      </div>
+      <div class="statistic__all btn btn-primary">All tasks {{ taskAll }}</div>
+      <div class="statistic__percent btn btn-primary">
+        Percent completed taskslist {{ taskComplPercent }}%
+      </div>
+    </div>
     <div class="list-group">
       <AppTodoItem
         v-for="task in todoItems"
@@ -63,6 +72,21 @@ export default {
       a.done = arr[0];
     },
   },
+  computed: {
+    taskCompl() {
+      let age = this.todoItems.filter((item) => item.done == true);
+      return age.length;
+    },
+    taskAll() {
+      return this.todoItems.length;
+    },
+    taskComplPercent() {
+      if (this.taskAll === 0) {
+        return 0;
+      }
+      return Math.round((this.taskCompl * 100) / this.taskAll);
+    },
+  },
 };
 </script>
 
@@ -77,5 +101,11 @@ export default {
 .addTask {
   display: flex;
   padding: 10px;
+}
+.statistic {
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+  padding: 20px;
 }
 </style>
