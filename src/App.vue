@@ -10,9 +10,12 @@
         Percent completed taskslist {{ taskComplPercent }}%
       </div>
     </div>
+
+    <input type="search" class="searchTask" v-model="search" />
+
     <div class="list-group">
       <AppTodoItem
-        v-for="task in todoItems"
+        v-for="task in searchHandler()"
         v-bind:key="task.id"
         v-bind:id="task.id"
         v-bind:text="task.text"
@@ -45,6 +48,7 @@ export default {
   data() {
     return {
       newTextTask: "",
+      search: "",
       message: "Hello from Vue App",
       todoItems: [
         { id: 1, text: "task 1", done: false },
@@ -70,6 +74,11 @@ export default {
     checkDone(arr) {
       let a = this.todoItems.find((x) => x.id === arr[1]);
       a.done = arr[0];
+    },
+    searchHandler() {
+      return this.todoItems.filter((task) => {
+        return task.text.toLowerCase().includes(this.search.toLowerCase());
+      });
     },
   },
   computed: {
@@ -107,5 +116,13 @@ export default {
   width: 600px;
   justify-content: space-between;
   padding: 20px;
+}
+.info {
+  margin: 0;
+  padding: 10px;
+}
+.searchTask {
+  max-width: 200px;
+  margin: 10px;
 }
 </style>
