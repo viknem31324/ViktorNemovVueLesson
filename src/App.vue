@@ -8,25 +8,25 @@
       v-bind:taskComplPercent="taskComplPercent"
     ></statisticTask>
 
-    <checkSelectTask
+    <selectTask
       v-bind:check="check"
       @checkTab="checkTab"
       v-bind:arrTab="arrTab"
-    ></checkSelectTask>
+    ></selectTask>
 
     <input type="search" class="searchTask" v-model="search" />
 
     <p class="info" v-if="taskAll === 0">Please add new task</p>
 
     <ul class="list-group">
-      <AppTodoItem
+      <todoItem
         v-for="task in searchHandler(check)"
         v-bind:key="task.id"
         v-bind:id="task.id"
         v-bind:text="task.text"
         v-bind:done="task.done"
         @checkDone="checkDone"
-      ></AppTodoItem>
+      ></todoItem>
     </ul>
 
     <div class="addTask">
@@ -63,12 +63,12 @@ export default {
     };
   },
   components: {
-    AppTodoItem: todoItem,
-    checkSelectTask: selectTask,
-    statisticTask: statisticTask,
+    todoItem,
+    selectTask,
+    statisticTask,
   },
   methods: {
-    addNewTask: function () {
+    addNewTask() {
       this.todoItems.push({
         id: this.todoItems.length + 1,
         text: this.newTextTask,
