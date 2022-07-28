@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     taskCompl() {
-      let age = this.todoItems.filter((item) => item.done == true);
+      let age = this.todoItems.filter((item) => item.done);
       return age.length;
     },
     taskAll() {
