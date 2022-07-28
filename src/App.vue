@@ -30,8 +30,7 @@
     </ul>
     <div class="addTask">
       <input
-        v-bind:value="newTextTask"
-        v-on:input="newTextTask = $event.target.value"
+        v-model.trim="newTextTask"
         class="addTask__input"
         type="text"
         placeholder="Add new Task"
