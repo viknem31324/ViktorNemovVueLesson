@@ -1,15 +1,13 @@
 <template>
   <div class="wrapper">
     <h1 class="title">{{ message }}</h1>
-    <div class="statistic">
-      <div class="statistic__complited btn btn-primary">
-        Completed tasks {{ taskCompl }}
-      </div>
-      <div class="statistic__all btn btn-primary">All tasks {{ taskAll }}</div>
-      <div class="statistic__percent btn btn-primary">
-        Percent completed taskslist {{ taskComplPercent }}%
-      </div>
-    </div>
+
+    <statisticTask
+      v-bind:taskCompl="taskCompl"
+      v-bind:taskAll="taskAll"
+      v-bind:taskComplPercent="taskComplPercent"
+    ></statisticTask>
+
     <checkSelectTask
       v-bind:check="check"
       @checkTab="checkTab"
@@ -18,6 +16,7 @@
     <input type="search" class="searchTask" v-model="search" />
 
     <p class="info" v-if="taskAll === 0">Please add new task</p>
+
     <ul class="list-group">
       <AppTodoItem
         v-for="task in searchHandler(check)"
@@ -28,6 +27,7 @@
         @checkDone="checkDone"
       ></AppTodoItem>
     </ul>
+
     <div class="addTask">
       <input
         v-model.trim="newTextTask"
@@ -49,6 +49,7 @@
 <script>
 import todoItem from "./components/todoItem";
 import selectTask from "./components/selectTask";
+import statisticTask from "./components/statisticTask";
 export default {
   data() {
     return {
@@ -62,6 +63,7 @@ export default {
   components: {
     AppTodoItem: todoItem,
     checkSelectTask: selectTask,
+    statisticTask: statisticTask,
   },
   methods: {
     addNewTask: function () {
@@ -122,12 +124,6 @@ export default {
 .addTask {
   display: flex;
   padding: 10px;
-}
-.statistic {
-  display: flex;
-  width: 600px;
-  justify-content: space-between;
-  padding: 20px;
 }
 .info {
   font-size: 18px;
