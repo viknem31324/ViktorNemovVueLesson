@@ -11,6 +11,7 @@
     <checkSelectTask
       v-bind:check="check"
       @checkTab="checkTab"
+      v-bind:arrTab="arrTab"
     ></checkSelectTask>
 
     <input type="search" class="searchTask" v-model="search" />
@@ -58,6 +59,7 @@ export default {
       check: "all",
       message: "Hello from Vue App",
       todoItems: [],
+      arrTab: [{key: "all", text: "display all tasks"}, {key: "compl", text: "display completed tasks"}, {key: "outst", text: "display outstanding tasks"},],
     };
   },
   components: {

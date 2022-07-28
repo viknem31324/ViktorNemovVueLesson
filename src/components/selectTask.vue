@@ -1,31 +1,19 @@
 <template>
   <div class="selectTask">
     <button
+      v-for="item, inx in arrTab"
+      v-bind:key="inx"
       class="btn btn-info"
-      v-on:click="checkTab('all')"
-      v-bind:class="{ 'btn-warning': val === 'all' }"
+      v-on:click="checkTab(item.key)"
+      v-bind:class="{ 'btn-warning': val === item.key }"
     >
-      display all tasks
-    </button>
-    <button
-      class="btn btn-info"
-      v-on:click="checkTab('compl')"
-      v-bind:class="{ 'btn-warning': val === 'compl' }"
-    >
-      display completed tasks
-    </button>
-    <button
-      class="btn btn-info"
-      v-on:click="checkTab('outst')"
-      v-bind:class="{ 'btn-warning': val === 'outst' }"
-    >
-      display outstanding tasks
+      {{ item.text }}
     </button>
   </div>
 </template>
 <script>
 export default {
-  props: ["check"],
+  props: ["check", "arrTab"],
   data() {
     return {
       val: this.check,
