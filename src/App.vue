@@ -18,7 +18,7 @@
     <input type="search" class="searchTask" v-model="search" />
 
     <p class="info" v-if="taskAll === 0">Please add new task</p>
-    <div class="list-group">
+    <ul class="list-group">
       <AppTodoItem
         v-for="task in searchHandler(check)"
         v-bind:key="task.id"
@@ -27,7 +27,7 @@
         v-bind:done="task.done"
         @checkDone="checkDone"
       ></AppTodoItem>
-    </div>
+    </ul>
     <div class="addTask">
       <input
         v-bind:value="newTextTask"

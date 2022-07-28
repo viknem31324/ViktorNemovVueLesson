@@ -1,5 +1,5 @@
 <template>
-  <div class="todoItem list-group-item">
+  <li class="todoItem list-group-item">
     <button
       class="btn todoItem__btn"
       v-bind:class="[val ? 'btn-success' : 'btn-secondary']"
@@ -8,7 +8,7 @@
       {{ bool }}
     </button>
     <p class="todoItem__text">{{ text }}</p>
-  </div>
+  </li>
 </template>
 <script>
 export default {
