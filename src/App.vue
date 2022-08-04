@@ -59,7 +59,11 @@ export default {
       check: "all",
       message: "Hello from Vue App",
       todoItems: [],
-      arrTab: [{key: "all", text: "display all tasks"}, {key: "compl", text: "display completed tasks"}, {key: "outst", text: "display outstanding tasks"},],
+      arrTab: [
+        { key: "all", text: "display all tasks" },
+        { key: "compl", text: "display completed tasks" },
+        { key: "outst", text: "display outstanding tasks" },
+      ],
     };
   },
   components: {
@@ -67,18 +71,56 @@ export default {
     selectTask,
     statisticTask,
   },
+  computed: {
+    taskCompl() {
+      let age = this.todoItems.filter((item) => item.done);
+      return age.length;
+    },
+    taskAll() {
+      return this.todoItems.length;
+    },
+    taskComplPercent() {
+      if (this.taskAll === 0) {
+        return 0;
+      }
+      return Math.round((this.taskCompl * 100) / this.taskAll);
+    },
+  },
+  mounted() {
+    if (localStorage.getItem("todoItems")) {
+      try {
+        this.todoItems = JSON.parse(localStorage.getItem("todoItems"));
+      } catch (e) {
+        localStorage.removeItem("todoItems");
+      }
+    }
+  },
   methods: {
     addNewTask() {
+      if (!this.todoItems) {
+        return;
+      }
       this.todoItems.push({
         id: this.todoItems.length + 1,
         text: this.newTextTask,
         done: false,
       });
       this.newTextTask = "";
+      this.saveTask();
+    },
+    removeTask(x) {
+      this.todoItems.splice(x, 1);
+      this.saveTask();
+    },
+    saveTask() {
+      const parsed = JSON.stringify(this.todoItems);
+      console.log(parsed);
+      localStorage.setItem("todoItems", parsed);
     },
     checkDone(arr) {
       let a = this.todoItems.find((x) => x.id === arr[1]);
       a.done = arr[0];
+      this.saveTask();
     },
     checkTab(a) {
       this.check = a;
@@ -95,21 +137,6 @@ export default {
       return arr.filter((task) => {
         return task.text.toLowerCase().includes(this.search.toLowerCase());
       });
-    },
-  },
-  computed: {
-    taskCompl() {
-      let age = this.todoItems.filter((item) => item.done);
-      return age.length;
-    },
-    taskAll() {
-      return this.todoItems.length;
-    },
-    taskComplPercent() {
-      if (this.taskAll === 0) {
-        return 0;
-      }
-      return Math.round((this.taskCompl * 100) / this.taskAll);
     },
   },
 };

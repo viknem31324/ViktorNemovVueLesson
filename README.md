@@ -1,4 +1,4 @@
-# my-vue-test
+# hello-world
 
 ## Project setup
 ```
