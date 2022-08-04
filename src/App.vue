@@ -20,12 +20,14 @@
 
     <ul class="list-group">
       <todoItem
-        v-for="task in searchHandler(check)"
-        v-bind:key="task.id"
+        v-for="(task, n) in searchHandler(check)"
+        v-bind:key="n"
+        v-bind:index="n"
         v-bind:id="task.id"
         v-bind:text="task.text"
         v-bind:done="task.done"
         @checkDone="checkDone"
+        v-bind:removeTask="removeTask"
       ></todoItem>
     </ul>
 
@@ -110,11 +112,13 @@ export default {
     },
     removeTask(x) {
       this.todoItems.splice(x, 1);
+      this.todoItems.forEach((element, index) => {
+        if (index >= x) element.id -= 1;
+      });
       this.saveTask();
     },
     saveTask() {
       const parsed = JSON.stringify(this.todoItems);
-      console.log(parsed);
       localStorage.setItem("todoItems", parsed);
     },
     checkDone(arr) {

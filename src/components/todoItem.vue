@@ -2,20 +2,23 @@
   <li class="todoItem list-group-item">
     <button
       class="btn todoItem__btn"
-      v-bind:class="[val ? 'btn-success' : 'btn-secondary']"
+      v-bind:class="[done ? 'btn-success' : 'btn-secondary']"
       v-on:click="checkDone"
     >
       {{ bool }}
     </button>
     <p class="todoItem__text">{{ text }}</p>
+    <button class="btn btn-danger todoItem__btn todoItem__btn_remove" v-on:click="removeTask(index)">Remove</button>
   </li>
 </template>
 <script>
 export default {
   props: {
     id: Number,
+    index: Number,
     text: String,
     done: Boolean,
+    removeTask: Function,
   },
   data() {
     return {
@@ -30,7 +33,7 @@ export default {
   },
   computed: {
     bool() {
-      return !this.val ? "in order" : "complited";
+      return !this.done ? "in order" : "complited";
     },
   },
 };
@@ -38,6 +41,7 @@ export default {
 <style>
 .todoItem {
   display: flex;
+  justify-content: space-between;
 }
 .todoItem__btn {
   width: 100px;
