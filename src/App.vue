@@ -20,14 +20,13 @@
 
     <ul class="list-group">
       <todoItem
-        v-for="(task, n) in searchHandler(check)"
-        v-bind:key="n"
-        v-bind:index="n"
-        v-bind:id="task.id"
-        v-bind:text="task.text"
-        v-bind:done="task.done"
+        is="todo-item"
+        v-for="task in searchHandler(check)"
+        v-bind:key="task.key"
+        v-bind:task="task"
         @checkDone="checkDone"
-        v-bind:removeTask="removeTask"
+        @createText="createText"
+        @removeTask="removeTask(task)"
       ></todoItem>
     </ul>
 
@@ -104,17 +103,16 @@ export default {
       }
       this.todoItems.push({
         id: this.todoItems.length + 1,
+        key: Date.now(),
         text: this.newTextTask,
         done: false,
       });
       this.newTextTask = "";
       this.saveTask();
     },
-    removeTask(x) {
-      this.todoItems.splice(x, 1);
-      this.todoItems.forEach((element, index) => {
-        if (index >= x) element.id -= 1;
-      });
+    removeTask(task) {
+      let taskIndex = this.todoItems.indexOf(task);
+      this.todoItems.splice(taskIndex, 1);
       this.saveTask();
     },
     saveTask() {
@@ -124,6 +122,11 @@ export default {
     checkDone(arr) {
       let a = this.todoItems.find((x) => x.id === arr[1]);
       a.done = arr[0];
+      this.saveTask();
+    },
+    createText(arr) {
+      let a = this.todoItems.find((x) => x.id === arr[1]);
+      a.text = arr[0];
       this.saveTask();
     },
     checkTab(a) {
