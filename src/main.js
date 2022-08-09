@@ -4,10 +4,24 @@ import App from './App.vue'
 Vue.config.productionTip = false
 
 Vue.directive('focus', {
-  inserted: function (el) {
+  inserted(el) {
     el.focus()
   }
 })
+
+Vue.directive('blur', {
+  inserted(el, bindings) {
+    el.addEventListener("focusout", function() {
+      bindings.value(el.value);
+    });
+  }
+})
+Vue.directive('color', {
+  bind(el, bindings) {
+    const arg = bindings.arg;
+    el.style[arg] = bindings.value;
+}
+});
 
 new Vue({
   render: h => h(App),

@@ -9,13 +9,15 @@
     </button>
 
     <div @click="showInput = true" class="todoItem__block alert alert-success">
-      <p v-if="!showInput" class="todoItem__text">{{ txt }}</p>
+      <p v-if="!showInput" v-color:color="'red'" class="todoItem__text">
+        {{ txt }}
+      </p>
       <input
         v-else
         type="text"
         v-model="txt"
         v-focus
-        @blur="createText"
+        v-blur="createText"
         @keyup.enter="createText"
         class="todoItem__input"
       />
@@ -31,7 +33,9 @@
 </template>
 <script>
 export default {
-  props: ['task'],
+  props: {
+    task: Object,
+  },
   data() {
     return {
       txt: this.task.text,
@@ -41,18 +45,18 @@ export default {
   },
   methods: {
     removeTask(task) {
-      this.$emit('removeTask', task);
+      this.$emit("removeTask", task);
     },
     createText(event) {
       let inp = event.target;
-      if(this.txt !== ''){
-      this.showInput = false;
-      this.$emit("createText", [this.txt, this.task.id]);
-      }else inp.focus();
+      if (this.txt !== "") {
+        this.showInput = false;
+        this.$emit("createText", [this.txt, this.task.key]);
+      } else inp.focus();
     },
     checkDone() {
       this.val = !this.val;
-      this.$emit("checkDone", [this.val, this.task.id]);
+      this.$emit("checkDone", [this.val, this.task.key]);
     },
   },
   computed: {

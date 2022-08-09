@@ -102,7 +102,6 @@ export default {
         return;
       }
       this.todoItems.push({
-        id: this.todoItems.length + 1,
         key: Date.now(),
         text: this.newTextTask,
         done: false,
@@ -120,12 +119,12 @@ export default {
       localStorage.setItem("todoItems", parsed);
     },
     checkDone(arr) {
-      let a = this.todoItems.find((x) => x.id === arr[1]);
+      let a = this.todoItems.find((x) => x.key === arr[1]);
       a.done = arr[0];
       this.saveTask();
     },
     createText(arr) {
-      let a = this.todoItems.find((x) => x.id === arr[1]);
+      let a = this.todoItems.find((x) => x.key === arr[1]);
       a.text = arr[0];
       this.saveTask();
     },
