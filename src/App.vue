@@ -45,6 +45,10 @@
         Add
       </button>
     </div>
+
+    <addList>
+      <li v-for="i in [0, 1, 2, 3, 4, 5]" v-bind:key="i">{{ i }}</li>
+    </addList>
   </div>
 </template>
 
@@ -52,6 +56,7 @@
 import todoItem from "./components/todoItem";
 import selectTask from "./components/selectTask";
 import statisticTask from "./components/statisticTask";
+import addList from "./components/addList";
 export default {
   data() {
     return {
@@ -71,6 +76,7 @@ export default {
     todoItem,
     selectTask,
     statisticTask,
+    addList,
   },
   computed: {
     taskCompl() {
