@@ -48,9 +48,8 @@
     <addList>
       <li v-for="i in [0, 1, 2, 3, 4, 5]" v-bind:key="i">{{ i }}</li>
     </addList>
-    
-    <currencyConverter></currencyConverter>
 
+    <currencyConverter></currencyConverter>
   </div>
 </template>
 
@@ -60,9 +59,13 @@ import selectTask from "./components/selectTask";
 import statisticTask from "./components/statisticTask";
 import addList from "./components/addList";
 import currencyConverter from "./components/currencyConverter";
+import logHookMixin from "./mixin/logHookMixin";
+
 export default {
+  mixins: [logHookMixin],
   data() {
     return {
+      name: "App",
       newTextTask: "",
       search: "",
       check: "all",

@@ -5,9 +5,12 @@
   </div>
 </template>
 <script>
+import logHookMixin from "../mixin/logHookMixin";
 export default {
+  mixins: [logHookMixin],
   data() {
     return {
+      name: "Converter",
       val: "",
       currency: " руб",
     };

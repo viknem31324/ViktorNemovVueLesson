@@ -28,7 +28,6 @@ Vue.directive('color', {
 
 Vue.filter('currencyFilter', (val, cur) => {
   let num = Number(val);
-  console.log(num);
   if(num !== 0) {
     return num.toLocaleString('ru') + cur;
   } else return "Введите число"

@@ -32,12 +32,15 @@
   </li>
 </template>
 <script>
+import logHookMixin from "../mixin/logHookMixin";
 export default {
+  mixins: [logHookMixin],
   props: {
     task: Object,
   },
   data() {
     return {
+      name: "Item",
       txt: this.task.text,
       val: this.task.done,
       showInput: false,
