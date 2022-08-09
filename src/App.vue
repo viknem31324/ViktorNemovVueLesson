@@ -20,7 +20,6 @@
 
     <ul class="list-group">
       <todoItem
-        is="todo-item"
         v-for="task in searchHandler(check)"
         v-bind:key="task.key"
         v-bind:task="task"
@@ -49,6 +48,9 @@
     <addList>
       <li v-for="i in [0, 1, 2, 3, 4, 5]" v-bind:key="i">{{ i }}</li>
     </addList>
+    
+    <currencyConverter></currencyConverter>
+
   </div>
 </template>
 
@@ -57,6 +59,7 @@ import todoItem from "./components/todoItem";
 import selectTask from "./components/selectTask";
 import statisticTask from "./components/statisticTask";
 import addList from "./components/addList";
+import currencyConverter from "./components/currencyConverter";
 export default {
   data() {
     return {
@@ -77,6 +80,7 @@ export default {
     selectTask,
     statisticTask,
     addList,
+    currencyConverter,
   },
   computed: {
     taskCompl() {
