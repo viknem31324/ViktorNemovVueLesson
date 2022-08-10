@@ -1,7 +1,5 @@
 <template>
-  <div class="wrapper">
-    <router-view></router-view>
-  </div>
+  <div>Error404Component</div>
 </template>
 
 <script>

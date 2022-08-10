@@ -1,11 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
-import MuPlugin from './MyPludin'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import App from './App.vue';
+import router from './routes'
 
+Vue.use(VueRouter);
 Vue.config.productionTip = false;
-
-Vue.use(MuPlugin);
 
 new Vue({
   render: h => h(App),
+  router: router,
 }).$mount('#app');
