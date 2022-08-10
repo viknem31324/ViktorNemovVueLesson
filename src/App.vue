@@ -57,7 +57,6 @@
 import todoItem from "./components/todoItem";
 import selectTask from "./components/selectTask";
 import statisticTask from "./components/statisticTask";
-import addList from "./components/addList";
 import currencyConverter from "./components/currencyConverter";
 import logHookMixin from "./mixin/logHookMixin";
 
@@ -82,7 +81,6 @@ export default {
     todoItem,
     selectTask,
     statisticTask,
-    addList,
     currencyConverter,
   },
   computed: {
