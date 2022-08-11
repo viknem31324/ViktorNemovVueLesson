@@ -3,13 +3,13 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <router-link slot="li" class="nav-item btn btn-outline-secondary" exact to="/" active-class="btn-outline-success">
+          <router-link tag="li" class="nav-item btn btn-outline-secondary" exact to="/" active-class="btn-outline-success">
             <a class="nav-link">Home</a>
           </router-link>
-          <router-link slot="li" class="nav-item btn btn-outline-secondary" exact to="/about" active-class="btn-outline-success">
+          <router-link tag="li" class="nav-item btn btn-outline-secondary" exact to="/about" active-class="btn-outline-success">
             <a class="nav-link">About</a>
           </router-link>
-          <router-link slot="li" class="nav-item btn btn-outline-secondary" exact to="/tasklist:user" active-class="btn-outline-success">
+          <router-link tag="li" class="nav-item btn btn-outline-secondary" exact to="/tasklist" active-class="btn-outline-success">
             <a class="nav-link">tasklist</a>
           </router-link>
         </ul>

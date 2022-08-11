@@ -1,8 +1,9 @@
 import VueRouter from 'vue-router';
-import HomeComponent from './pages/HomeComponent'
-import AboutComponent from './pages/AboutComponent'
-import TaskListComponent from './pages/TaskListComponent'
-import Error404Component from './pages/Error404Component'
+import HomeComponent from './pages/HomeComponent';
+import AboutComponent from './pages/AboutComponent';
+import TaskListComponent from './pages/TaskListComponent';
+import TaskComponent from './pages/TaskComponent';
+import Error404Component from './pages/Error404Component';
 
 export default new VueRouter({
     routes: [
@@ -15,8 +16,12 @@ export default new VueRouter({
             component: AboutComponent,
         },
         {
-            path: '/tasklist:user',
+            path: '/tasklist',
             component: TaskListComponent,
+        },
+        {
+            path: '/task/:id',
+            component: TaskComponent,
         },
         {
             path: '*',
