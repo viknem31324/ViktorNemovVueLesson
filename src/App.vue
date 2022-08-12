@@ -9,9 +9,9 @@
           <router-link tag="li" class="nav-item btn btn-outline-secondary" exact to="/about" active-class="btn-outline-success">
             <a class="nav-link">About</a>
           </router-link>
-          <router-link tag="li" class="nav-item btn btn-outline-secondary" exact to="/tasklist" active-class="btn-outline-success">
+          <!-- <router-link tag="li" class="nav-item btn btn-outline-secondary" exact to="/tasklist" active-class="btn-outline-success">
             <a class="nav-link">tasklist</a>
-          </router-link>
+          </router-link> -->
         </ul>
       </div>
     </nav>
