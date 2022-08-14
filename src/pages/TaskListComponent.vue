@@ -4,15 +4,15 @@
       <router-link
         class="taskList__item list-group-item-success"
         tag="li"
-        v-for="id in 10"
-        :key="id + key"
+        v-for="(task, inx) in taskList"
+        :key="inx + key"
         :to="{
           name: 'task',
-          params: { id: id },
-          query: { desc: 'desc', title: 'title' },
+          params: {id: task.id},
+          query: { task: task },
         }"
       >
-        <a class="taskList__link nav-link">Task {{ id }}</a>
+        <a class="taskList__link nav-link">Task {{ task.id}}</a>
       </router-link>
     </ul>
     <router-view></router-view>
@@ -20,11 +20,24 @@
 </template>
 
 <script>
+import axios from "axios";
+
+const baseURL = "http://localhost:3001/taskList";
+
 export default {
   data() {
     return {
       key: Date.now(),
+      taskList: [],
     };
+  },
+  async created() {
+    try {
+      const ref = await axios.get(baseURL);
+      this.taskList = ref.data;
+    } catch (e) {
+      console.error(e);
+    }
   },
 };
 </script>

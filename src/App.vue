@@ -27,7 +27,7 @@
             tag="li"
             class="nav-item btn btn-outline-secondary"
             exact
-            to="/tasklist"
+            :to="{ name: 'taskList' }"
             active-class="btn-outline-success"
           >
             <a class="nav-link">tasklist</a>

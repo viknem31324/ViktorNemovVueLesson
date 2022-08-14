@@ -72,7 +72,9 @@ export default {
       }
 
       if (!this.errors.length) {
-        this.$router.push("/tasklist");
+        this.$router.push({
+          name: "taskList",
+        });
         return (this.$root.checkLogin = true);
       }
 
