@@ -11,6 +11,9 @@ export default new VueRouter({
         {
             path: '/',
             component: HomeComponent,
+            props(route) {
+                return { myprop: route.query.myprop }
+            }
         },
         {
             path: '/registration',
@@ -27,6 +30,7 @@ export default new VueRouter({
         {
             path: '/task/:id',
             component: TaskComponent,
+            name: 'task',
         },
         {
             path: '*',

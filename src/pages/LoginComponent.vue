@@ -55,7 +55,6 @@ export default {
         email: "",
         password: "",
       },
-      checkLogin: false,
     };
   },
   methods: {
@@ -74,7 +73,7 @@ export default {
 
       if (!this.errors.length) {
         this.$router.push("/tasklist");
-        return (this.checkLogin = true);
+        return (this.$root.checkLogin = true);
       }
 
       e.preventDefault();
