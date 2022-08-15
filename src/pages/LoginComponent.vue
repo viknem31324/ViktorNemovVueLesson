@@ -44,6 +44,8 @@
 
 <script>
 import ValidFormErrorComponent from "./ValidFormErrorComponent.vue";
+// import axios from "axios";
+
 export default {
   components: {
     ValidFormErrorComponent,
@@ -58,7 +60,7 @@ export default {
     };
   },
   methods: {
-    validLogin(e) {
+    async validLogin(e) {
       this.errors = [];
 
       if (!this.login.email) {
@@ -72,18 +74,38 @@ export default {
       }
 
       if (!this.errors.length) {
-        this.$router.push({
-          name: "taskList",
-        });
-        return (this.$root.checkLogin = true);
-      }
+        // try {
+        //   const ref = await axios.get(this.$root.baseURL);
+          // console.log(ref.data[0].email);
+          // console.log(ref.data[0].password);
 
+          // for (let i = 0; i < ref.data.length; i++) {
+          //   if (
+          //     this.login.email === ref.data[i].email &&
+          //     this.login.password === ref.data[i].password
+          //   ) {
+          //     this.$router.push({
+          //       name: "taskList",
+          //     });
+          //     this.setStorage(true, ref.data[i]);
+          //   } else {
+          //     this.errors.push("invalid login or password");
+          //   }
+          // }
+          this.$router.push({
+            name: "taskList",
+          });
+          this.setStorage(true);
+        } 
       e.preventDefault();
     },
     validEmail(email) {
       var re =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
+    },
+    setStorage(bool) {
+      localStorage.setItem("checkLogin", JSON.stringify(bool));
     },
   },
 };
