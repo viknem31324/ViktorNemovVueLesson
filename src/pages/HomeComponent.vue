@@ -6,10 +6,22 @@
 
 <script>
 import LoginComponent from "./LoginComponent.vue";
+import checkMixin from "./mixins";
+
 export default {
+  data() {
+    return {
+    };
+  },
   components: {
     LoginComponent,
   },
+  mixins: [checkMixin],
+  created(){
+    if(this.$root.checkLogin){
+      this.$router.push('/tasklist')
+    }
+  }
 };
 </script>
 

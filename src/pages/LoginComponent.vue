@@ -76,27 +76,27 @@ export default {
       if (!this.errors.length) {
         // try {
         //   const ref = await axios.get(this.$root.baseURL);
-          // console.log(ref.data[0].email);
-          // console.log(ref.data[0].password);
+        // console.log(ref.data[0].email);
+        // console.log(ref.data[0].password);
 
-          // for (let i = 0; i < ref.data.length; i++) {
-          //   if (
-          //     this.login.email === ref.data[i].email &&
-          //     this.login.password === ref.data[i].password
-          //   ) {
-          //     this.$router.push({
-          //       name: "taskList",
-          //     });
-          //     this.setStorage(true, ref.data[i]);
-          //   } else {
-          //     this.errors.push("invalid login or password");
-          //   }
-          // }
-          this.$router.push({
-            name: "taskList",
-          });
-          this.setStorage(true);
-        } 
+        // for (let i = 0; i < ref.data.length; i++) {
+        //   if (
+        //     this.login.email === ref.data[i].email &&
+        //     this.login.password === ref.data[i].password
+        //   ) {
+        //     this.$router.push({
+        //       name: "taskList",
+        //     });
+        //     this.setStorage(true, ref.data[i]);
+        //   } else {
+        //     this.errors.push("invalid login or password");
+        //   }
+        // }
+        this.$router.push({
+          name: "taskList",
+        });
+        this.$root.checkLogin = true;
+      }
       e.preventDefault();
     },
     validEmail(email) {

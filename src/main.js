@@ -9,10 +9,10 @@ Vue.use(MyPlugin);
 
 Vue.config.productionTip = false;
 
-
 new Vue({
   data: {
     checkDash: true,
+    checkLogin: false,
     baseURL: "http://localhost:3001/taskList",
   },
   render: h => h(App),

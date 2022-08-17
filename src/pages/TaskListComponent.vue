@@ -76,6 +76,7 @@
 import axios from "axios";
 import selectTask from "./selectTask.vue";
 import statisticTask from "./statisticTask";
+import checkMixin from "./mixins";
 
 export default {
   data() {
@@ -95,6 +96,7 @@ export default {
       ],
     };
   },
+  mixins: [checkMixin],
   methods: {
     async addNewTask() {
       if (!this.taskList) {
@@ -206,6 +208,9 @@ export default {
       this.taskList = ref.data;
     } catch (e) {
       console.error(e);
+    }
+    if(!this.$root.checkLogin){
+      this.$router.push('/');
     }
     return (this.$root.checkDash = true);
   },
