@@ -2,19 +2,9 @@
   <div class="taskList">
     <h2 class="taskList__title">My task</h2>
 
-    <statisticTask
-      v-show="checkVisibl"
-      v-bind:taskCompl="taskCompl"
-      v-bind:taskAll="taskAll"
-      v-bind:taskComplPercent="taskComplPercent"
-    ></statisticTask>
+    <statisticTask v-show="checkVisibl"></statisticTask>
 
-    <selectTask
-      v-show="checkVisibl"
-      v-bind:check="check"
-      @checkTab="checkTab"
-      v-bind:arrTab="arrTab"
-    ></selectTask>
+    <selectTask v-show="checkVisibl"></selectTask>
 
     <input
       type="search"
@@ -28,26 +18,26 @@
     <ul class="taskList__list list-group">
       <li
         class="taskList__item list-group-item-success item"
-        v-for="(task, inx) in searchHandler(check)"
-        :key="inx + key"
+        v-for="(task, inx) in searchHandler"
+        :key="inx + d"
       >
         <button
           v-show="checkVisibl"
           class="btn item__btn"
           v-bind:class="[task.done ? 'btn-success' : 'btn-secondary']"
-          v-on:click="doneTask(task.id, task.done)"
+          v-on:click="doneTask({ task, createdDay, inx })"
         >
           {{ !task.done ? "in order" : "complited" }}
         </button>
         <div class="item__id">{{ task.id }}</div>
-        <div class="item__title" @click="taskPush(task)">
+        <div class="item__title" @click="taskPush(task, inx)">
           {{ task.title }}
         </div>
 
         <button
           v-show="checkVisibl"
           class="btn btn-danger item__btn item__btn_remove"
-          v-on:click="removeTask(task.id)"
+          v-on:click="removeTask({ task, inx })"
         >
           Remove
         </button>
@@ -63,7 +53,19 @@
       />
       <button
         v-bind:disabled="newTitleTask == ''"
-        v-on:click="addNewTask"
+        v-on:click="
+          [
+            addNewTask({
+              title: newTitleTask,
+              desc: '',
+              created: createdDay,
+              updated: createdDay,
+              done: false,
+              arrLength: taskAll,
+            }),
+            (newTitleTask = ''),
+          ]
+        "
         class="btn btn-success addTask__btn"
       >
         Add
@@ -73,151 +75,82 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import selectTask from "./selectTask.vue";
 import statisticTask from "./statisticTask";
 import checkMixin from "./mixins";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   data() {
     return {
-      key: Date.now(),
-      now: new Date(),
-      upDay: new Date(Date.now()),
-      taskList: [],
+      search: "",
+      d: Date.now(),
       checkVisibl: this.$root.checkDash,
       newTitleTask: "",
-      search: "",
-      check: "all",
-      arrTab: [
-        { key: "all", text: "display all tasks" },
-        { key: "compl", text: "display completed tasks" },
-        { key: "outst", text: "display outstanding tasks" },
-      ],
     };
   },
+
   mixins: [checkMixin],
   methods: {
-    async addNewTask() {
-      if (!this.taskList) {
-        return;
-      }
-      try {
-        const res = await axios.post(`${this.$root.baseURL}`, {
-          title: this.newTitleTask,
-          desc: "",
-          created: this.createdDay,
-          updated: this.createdDay,
-          done: false,
-        });
-        this.taskList = [...this.taskList, res.data];
-        this.newTitleTask = "";
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    async removeTask(id) {
-      this.$root.checkDash = true;
-      try {
-        await axios.delete(`${this.$root.baseURL}/${id}`, { id: id });
-        this.taskList.splice(id);
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    async doneTask(id, done) {
-      try {
-        await axios.patch(`${this.$root.baseURL}/${id}`, {
-          done: !done,
-          updated: this.createdDay,
-        });
-        this.taskList = this.taskList.map((task) => {
-          if (task.id === id) {
-            task.done = !done;
-          }
-          return task;
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    checkTab(a) {
-      this.check = a;
-    },
-    searchHandler(check) {
-      let arr = [];
-      if (check === "all") {
-        arr = this.taskList;
-      } else if (check === "compl") {
-        arr = this.taskList.filter((item) => item.done == true);
-      } else if (check === "outst") {
-        arr = this.taskList.filter((item) => item.done == false);
-      }
-      return arr.filter((task) => {
-        return task.title.toLowerCase().includes(this.search.toLowerCase());
-      });
-    },
-    taskPush(task) {
+    ...mapActions([
+      "axioTaskList",
+      "axioTask",
+      "addNewTask",
+      "removeTask",
+      "doneTask",
+      "checkTab",
+      "taskPush",
+      "taskComplPercent",
+    ]),
+    ...mapMutations(["visibleTask"]),
+    taskPush(task, inx) {
+      this.axioTask(inx);
       this.$router
         .push({
           name: "task",
           params: { id: task.id },
           query: {
             task: task,
-            doneTask: this.doneTask,
-            removeTask: this.removeTask,
-            taskPush: this.taskPush,
-            createdDay: this.createdDay,
-          },
+            inx: inx
+          }
         })
         .catch(() => {});
-      return (this.$root.checkDash = false);
     },
   },
-
   computed: {
-    bool() {
-      return !this.task.done ? "in order" : "complited";
-    },
-    taskCompl() {
-      let age = this.taskList.filter((item) => item.done);
-      return age.length;
-    },
-    taskAll() {
-      return this.taskList.length;
-    },
-    taskComplPercent() {
-      if (this.taskAll === 0) {
-        return 0;
+    ...mapGetters([
+      "getVisTask",
+      "allTaskList",
+      "taskCompl",
+      "taskAll",
+      "createdDay",
+      "findAllTask",
+      "findCompilTask",
+      "findOutsTask",
+      "getCheck",
+    ]),
+    searchHandler() {
+      if (this.getCheck === "all") {
+        this.visibleTask(this.findAllTask);
+      } else if (this.getCheck === "compl") {
+        this.visibleTask(this.findCompilTask);
+      } else if (this.getCheck === "outst") {
+        this.visibleTask(this.findOutsTask);
       }
-      return Math.round((this.taskCompl * 100) / this.taskAll);
+      return this.getVisTask.filter((task) => {
+        return task.title.toLowerCase().includes(this.search.toLowerCase());
+      });
     },
-    createdDay() {
-      return (
-        this.now.getDate() +
-        " / 0" +
-        (this.now.getMonth() + 1) +
-        " / " +
-        this.now.getFullYear()
-      );
-    },
+  },
+  mounted() {
+    this.axioTaskList();
   },
   async created() {
-    try {
-      const ref = await axios.get(this.$root.baseURL);
-      this.taskList = ref.data;
-    } catch (e) {
-      console.error(e);
+    if (!this.$root.checkLogin) {
+      this.$router.push("/");
     }
-    if(!this.$root.checkLogin){
-      this.$router.push('/');
-    }
-    return (this.$root.checkDash = true);
-  },
-  async updated() {
-    await axios
-      .get(this.$root.baseURL)
-      .then((response) => (this.taskList = response.data));
+    this.$root.checkDash = true;
   },
   components: {
     selectTask,

@@ -4,8 +4,8 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <router-link
-            v-for="(link, inx) in arrLink"
-            :key="inx"
+            v-for="link in arrLink"
+            :key="link.path"
             tag="li"
             class="nav-item btn btn-outline-secondary"
             exact

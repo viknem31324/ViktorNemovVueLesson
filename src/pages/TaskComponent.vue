@@ -13,10 +13,20 @@
           <input
             v-else
             type="text"
-            v-model="title"
+            v-model.trim="title"
             v-focus
-            v-blur="createTitle"
-            @keyup.enter="createTitle"
+            v-blur="
+              () => [
+                createTitle({ title, desc, id, createdDay, inx }),
+                (showTitle = false),
+              ]
+            "
+            @keyup.enter="
+              () => [
+                createTitle({ title, desc, id, createdDay, inx }),
+                (showTitle = false),
+              ]
+            "
             class="task__input input-title"
           />
         </div>
@@ -27,10 +37,20 @@
           <input
             v-else
             type="text"
-            v-model="desc"
+            v-model.trim="desc"
             v-focus
-            v-blur="createDesc"
-            @keyup.enter="createDesc"
+            v-blur="
+              () => [
+                createTitle({ title, desc, id, createdDay, inx }),
+                (showDesc = false),
+              ]
+            "
+            @keyup.enter="
+              () => [
+                createTitle({ title, desc, id, createdDay, inx }),
+                (showDesc = false),
+              ]
+            "
             class="task__input input-desc"
           />
         </div>
@@ -43,13 +63,13 @@
         <button
           class="btn task__btn"
           v-bind:class="[done ? 'btn-success' : 'btn-secondary']"
-          v-on:click="[doneTask(id, done), done = !done]"
+          v-on:click="[doneTask({ task, createdDay, inx })], done = !done"
         >
-          {{ !done ? "in order" : "complited"  }}
+          {{ !done ? "in order" : "complited" }}
         </button>
         <button
           class="btn btn-danger task__btn task__btn_remove"
-          v-on:click="[removeTask(id), $router.push('/tasklist')]"
+          v-on:click="[removeTask({ task, inx }), $router.push('/tasklist')]"
         >
           Remove
         </button>
@@ -60,12 +80,14 @@
 
 <script>
 import TaskListComponent from "./TaskListComponent.vue";
-import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
+// import axios from "axios";
 export default {
   data() {
     return {
       id: this.$route.params["id"],
       task: this.$route.query.task,
+      inx: this.$route.query.inx,
       title: this.$route.query.task.title,
       desc: this.$route.query.task.desc,
       done: this.$route.query.task.done,
@@ -73,64 +95,34 @@ export default {
       updated: this.$route.query.task.updated,
       showTitle: false,
       showDesc: false,
-      doneTask: this.$route.query.doneTask,
-      removeTask: this.$route.query.removeTask,
-      taskPush: this.$route.query.taskPush,
-      createdDay: this.$route.query.createdDay,
     };
   },
+  created() {
+    this.$root.checkDash = false;
+  },
+  updated() {
+    return this.done;
+  },
+  computed: {
+    ...mapGetters(["createdDay"]),
+  },
   methods: {
-    async createTitle() {
-      this.showTitle = false;
-      if (this.title !== "") {
-        try {
-          await axios.patch(`${this.$root.baseURL}/${this.id}`, {
-            title: this.title,
-            updated: this.createdDay,
-          });
-          this.updated = this.createdDay;
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    },
-    async createDesc() {
-      this.showDesc = false;
-      if (this.title !== "") {
-        try {
-          await axios.patch(`${this.$root.baseURL}/${this.id}`, {
-            desc: this.desc,
-            updated: this.createdDay,
-          });
-          this.updated = this.createdDay;
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    },
+    ...mapActions(["removeTask", "doneTask", "createTitle", "createDesc"]),
   },
   watch: {
     $route(toR) {
       this.id = toR.params["id"];
       this.task = toR.query.task;
+      this.inx = toR.query.inx;
       this.title = toR.query.task.title;
       this.desc = toR.query.task.desc;
       this.done = toR.query.task.done;
-      this.created = toR.query.task.created,
-      this.updated = toR.query.task.updated,
-      this.doneTask = toR.query.doneTask;
-      this.removeTask = toR.query.removeTask;
-      this.taskPush = toR.query.taskPush;
-      this.createdDay = toR.query.createdDay;
+      this.created = toR.query.task.created;
+      this.updated = toR.query.task.updated;
     },
   },
   components: {
     TaskListComponent,
-  },
-  computed: {
-    bool() {
-      return !this.task.done ? "in order" : "complited";
-    },
   },
 };
 </script>

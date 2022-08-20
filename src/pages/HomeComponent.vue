@@ -21,7 +21,7 @@ export default {
     if(this.$root.checkLogin){
       this.$router.push('/tasklist')
     }
-  }
+  },
 };
 </script>
 

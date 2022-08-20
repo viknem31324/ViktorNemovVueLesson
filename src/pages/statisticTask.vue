@@ -5,13 +5,25 @@
     </div>
     <div class="statistic__all btn btn-primary">All tasks {{ taskAll }}</div>
     <div class="statistic__percent btn btn-primary">
-      Percent completed taskslist {{ taskComplPercent }}%
+      Percent completed taskslist {{ taskComplPercent() }}%
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  props: ["taskCompl", "taskAll", "taskComplPercent"],
+  methods: {
+    taskComplPercent() {
+      if (this.taskAll === 0) {
+        return 0;
+      }
+      return Math.round((this.taskCompl * 100) / this.taskAll);
+    },
+  },
+  computed: {
+    ...mapGetters(["allTaskList", "taskCompl", "taskAll"]),
+  },
 };
 </script>
 <style>

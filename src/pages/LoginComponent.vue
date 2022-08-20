@@ -108,6 +108,7 @@ export default {
       localStorage.setItem("checkLogin", JSON.stringify(bool));
     },
   },
+  
 };
 </script>
 

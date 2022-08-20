@@ -1,29 +1,30 @@
 <template>
   <div class="selectTask">
     <button
-      v-for="item, inx in arrTab"
+      v-for="item, inx in allArrTab"
       v-bind:key="inx"
       class="btn btn-info selectTask__btn"
       v-on:click="checkTab(item.key)"
-      v-bind:class="{ 'btn-warning': val === item.key }"
+      v-bind:class="{ 'btn-warning': getCheck === item.key }"
     >
       {{ item.text }}
     </button>
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
-  props: ["check", "arrTab"],
-  data() {
-    return {
-      val: this.check,
-    };
-  },
   methods: {
-    checkTab(a) {
-      this.val = a;
-      this.$emit("checkTab", this.val);
-    },
+    ...mapActions([
+      "checkTab",
+    ]),
+  },
+  computed: {
+    ...mapGetters([
+      "allArrTab",
+      "getCheck"
+    ]),
   },
 };
 </script>

@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from './store/store';
 import App from './App.vue';
-import router from './routes'
-import MyPlugin from './MyPlugin'
+import router from './routes';
+import MyPlugin from './MyPlugin';
 
 Vue.use(VueRouter);
 Vue.use(MyPlugin);
@@ -15,6 +16,7 @@ new Vue({
     checkLogin: false,
     baseURL: "http://localhost:3001/taskList",
   },
+  store,
   render: h => h(App),
   router: router,
 }).$mount('#app');
